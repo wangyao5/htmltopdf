@@ -1,11 +1,14 @@
-From ubuntu
+FROM ubuntu
 
 MAINTAINER 82486240@qq.com
 ENV TIMEZONE="Asia/Shanghai"
-
+ENV DEBIAN_FRONTEND="noninteractive"
 WORKDIR /opt/
 
-RUN apt-get update
+RUN apt-get update --fix-missing
+RUN apt-get install -y tzdata && \
+ln -fs /usr/share/zoneinfo/Asia/Shanghai /etc/localtime && \
+dpkg-reconfigure -f noninteractive tzdata
 
 # Install dependencies needed for wkhtmltopdf
 RUN apt-get install -y libxrender1 libfontconfig1 libxext6 fonts-arphic-bkai00mp fonts-arphic-bsmi00lp \
